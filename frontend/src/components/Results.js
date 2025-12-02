@@ -87,7 +87,7 @@ function Results({ results, atsData, resumeKey, jobDescription }) {
 
     setIsGenerating(true);
     try {
-      const API_ENDPOINT = 'https://s0ogqkfqaf.execute-api.us-east-1.amazonaws.com';
+      const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT || 'https://your-api-gateway-url.execute-api.us-east-1.amazonaws.com';
       const response = await fetch(`${API_ENDPOINT}/generate-cover-letter`, {
         method: 'POST',
         headers: {

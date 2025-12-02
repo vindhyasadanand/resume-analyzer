@@ -3,7 +3,7 @@ import axios from 'axios';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import './JobComparison.css';
 
-const API_BASE_URL = 'https://s0ogqkfqaf.execute-api.us-east-1.amazonaws.com';
+const API_BASE_URL = process.env.REACT_APP_API_ENDPOINT || 'https://your-api-gateway-url.execute-api.us-east-1.amazonaws.com';
 
 function JobComparison({ resumeFile }) {
   const [jobDescriptions, setJobDescriptions] = useState(['', '', '']);
