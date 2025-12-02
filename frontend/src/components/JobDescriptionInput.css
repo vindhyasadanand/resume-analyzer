@@ -1,0 +1,53 @@
+.job-description-container {
+  margin: 20px 0;
+}
+
+.input-label {
+  display: block;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.input-hint {
+  font-size: 0.95rem;
+  color: #666;
+  margin-bottom: 15px;
+}
+
+.job-description-textarea {
+  width: 100%;
+  padding: 15px;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-family: inherit;
+  resize: vertical;
+  transition: all 0.3s ease;
+  background: #f8f9ff;
+}
+
+.job-description-textarea:focus {
+  outline: none;
+  border-color: #667eea;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.job-description-textarea::placeholder {
+  color: #999;
+}
+
+.char-count {
+  text-align: right;
+  font-size: 0.85rem;
+  color: #999;
+  margin-top: 8px;
+}
+
+@media (max-width: 768px) {
+  .job-description-textarea {
+    font-size: 0.95rem;
+  }
+}

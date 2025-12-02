@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Demo Script - AI-Powered Resume Analyzer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .info-bar {
+            background: #f8f9fa;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .info-item strong {
+            color: #667eea;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .section h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section h3 {
+            color: #764ba2;
+            font-size: 1.4em;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+        
+        .timing {
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: normal;
+        }
+        
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .checklist li {
+            padding: 12px;
+            margin: 8px 0;
+            background: white;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: transform 0.2s;
+        }
+        
+        .checklist li:hover {
+            transform: translateX(5px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .checklist li::before {
+            content: "✓";
+            background: #4CAF50;
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .script-text {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            border-left: 4px solid #764ba2;
+            margin: 15px 0;
+            font-style: italic;
+            color: #555;
+        }
+        
+        .action-note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        .action-note strong {
+            color: #856404;
+        }
+        
+        .tips-box {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .tips-box h4 {
+            color: #0c5460;
+            margin-bottom: 10px;
+        }
+        
+        .warning-box {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .warning-box h4 {
+            color: #721c24;
+            margin-bottom: 10px;
+        }
+        
+        ul, ol {
+            margin-left: 30px;
+            margin-top: 10px;
+        }
+        
+        ul li, ol li {
+            margin: 8px 0;
+        }
+        
+        code {
+            background: #f4f4f4;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: #e83e8c;
+        }
+        
+        a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 10px 5px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            text-decoration: none;
+        }
+        
+        .highlight {
+            background: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+        
+        footer {
+            background: #2d3748;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        @media print {
+            body {
+                background: white;
+            }
+            .container {
+                box-shadow: none;
+            }
+            .btn {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            header h1 {
+                font-size: 1.8em;
+            }
+            
+            .content, header {
+                padding: 20px;
+            }
+            
+            .info-bar {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎬 Project Demo Script</h1>
+            <p>AI-Powered Resume Analyzer - Cloud Computing Final Project</p>
+        </header>
+        
+        <div class="info-bar">
+            <div class="info-item">
+                <strong>⏱️ Duration:</strong> 12-15 minutes
+            </div>
+            <div class="info-item">
+                <strong>🎥 Platform:</strong> UTSA Panopto
+            </div>
+            <div class="info-item">
+                <strong>👥 Team:</strong> Keyur Modi, Naveen John, Vindhya Hegde
+            </div>
+        </div>
+        
+        <div class="content">
+            <!-- Setup Section -->
+            <div class="section">
+                <h2>📋 SETUP BEFORE RECORDING</h2>
+                
+                <h3>1. Prepare Materials</h3>
+                <ul class="checklist">
+                    <li>2-3 sample PDF resumes ready to upload</li>
+                    <li>2-3 sample job descriptions copied to clipboard/notepad</li>
+                    <li>Browser tabs open: Frontend + AWS Console</li>
+                    <li>Architecture diagram visible</li>
+                </ul>
+                
+                <h3>2. Technical Setup</h3>
+                <ul class="checklist">
+                    <li>Close unnecessary applications</li>
+                    <li>Clear browser cache/cookies for clean demo</li>
+                    <li>Enable "Do Not Disturb" mode</li>
+                    <li>Test microphone and screen recording</li>
+                    <li>Have a glass of water nearby</li>
+                </ul>
+                
+                <h3>3. Panopto Setup</h3>
+                <ul class="checklist">
+                    <li>Log in to <a href="https://utsa.hosted.panopto.com" target="_blank">UTSA Panopto</a></li>
+                    <li>Click "Create" → "Record New Session"</li>
+                    <li>Enable: Primary Screen + Webcam (optional)</li>
+                    <li>Test audio levels</li>
+                    <li>Click "Record" when ready</li>
+                </ul>
+            </div>
+            
+            <!-- Part 1 -->
+            <div class="section">
+                <h2>🎯 PART 1: Introduction & Overview <span class="timing">2 minutes</span></h2>
+                
+                <div class="action-note">
+                    <strong>[Show yourself on camera or start with title slide]</strong>
+                </div>
+                
+                <div class="script-text">
+                    "Hello, my name is [Your Name], and today I'll be demonstrating our Cloud Computing final project: an AI-Powered Resume Analyzer built on AWS infrastructure."
+                </div>
+                
+                <div class="action-note">
+                    <strong>[Switch to architecture diagram]</strong>
+                </div>
+                
+                <div class="script-text">
+                    "This application helps job seekers optimize their resumes by:
+                    <ol>
+                        <li>Parsing PDF resumes and extracting skills and experience</li>
+                        <li>Calculating ATS (Applicant Tracking System) compatibility scores</li>
+                        <li>Matching resumes against job descriptions with percentage scores</li>
+                        <li>Generating personalized cover letters</li>
+                        <li>Comparing multiple job opportunities side-by-side</li>
+                    </ol>
+                </div>
+                
+                <h3>Architecture Explanation</h3>
+                <div class="script-text">
+                    "The system uses a serverless architecture with these AWS components:
+                    <ul>
+                        <li><strong>Frontend:</strong> React application hosted on S3 with CloudFront CDN</li>
+                        <li><strong>API Layer:</strong> API Gateway routing requests to Lambda functions</li>
+                        <li><strong>Compute:</strong> Three Lambda functions (Parser, Calculator, Handler)</li>
+                        <li><strong>Storage:</strong> S3 for files, DynamoDB for analysis results</li>
+                        <li><strong>Security:</strong> CloudFront OAI for secure S3 access</li>
+                    </ul>
+                    
+                    The entire infrastructure is deployed using AWS SAM for Infrastructure as Code. Now let me show you the live application."
+                </div>
+            </div>
+            
+            <!-- Part 2 -->
+            <div class="section">
+                <h2>💻 PART 2: Application Demo - Basic Analysis <span class="timing">3 minutes</span></h2>
+                
+                <div class="action-note">
+                    <strong>[Navigate to: <a href="https://dx8h4r4ocvfti.cloudfront.net" target="_blank">https://dx8h4r4ocvfti.cloudfront.net</a>]</strong>
+                </div>
+                
+                <div class="script-text">
+                    "Here's our live application running on CloudFront. You can access it from anywhere in the world over HTTPS."
+                </div>
+                
+                <h3>Step 1: Upload Resume</h3>
+                <div class="action-note">
+                    <strong>[Click on file upload area or drag-and-drop a sample PDF]</strong>
+                </div>
+                
+                <div class="script-text">
+                    "I'm uploading a sample software engineer resume. Notice the file is validated - we only accept PDF files up to 5MB. The resume is securely uploaded to our S3 bucket using presigned URLs, which means the file goes directly from the browser to S3 without touching our Lambda functions."
+                </div>
+                
+                <h3>Step 2: Enter Job Description</h3>
+                <div class="action-note">
+                    <strong>[Paste a job description into the text area]</strong>
+                </div>
+                
+                <div class="script-text">
+                    "Now I'm entering a job description for a Senior Software Engineer position requiring skills like Python, AWS, React, and Docker."
+                </div>
+                
+                <div class="action-note">
+                    <strong>[Click 'Analyze Resume']</strong>
+                </div>
+                
+                <div class="script-text">
+                    "When I click Analyze, here's what happens behind the scenes:
+                    <ol>
+                        <li>API Gateway receives the request</li>
+                        <li>Resume Parser Lambda extracts text from PDF using PyMuPDF</li>
+                        <li>It identifies skills, education, experience using regex and NLP</li>
+                        <li>Score Calculator computes TF-IDF similarity</li>
+                        <li>Calculates ATS compatibility with specific feedback</li>
+                        <li>Results stored in DynamoDB and returned to frontend</li>
+                    </ol>
+                    
+                    This typically takes 2-4 seconds..."
+                </div>
+            </div>
+            
+            <!-- Part 3 -->
+            <div class="section">
+                <h2>📊 PART 3: Results Explanation <span class="timing">3 minutes</span></h2>
+                
+                <h3>ATS Score Section</h3>
+                <div class="script-text">
+                    "First, we see the ATS Compatibility Score - this one is 78 out of 100, which is in the GOOD range. The score is color-coded:
+                    <ul>
+                        <li><span style="color: #4CAF50;">Green (80-100):</span> Excellent</li>
+                        <li><span style="color: #FFC107;">Yellow (60-79):</span> Good</li>
+                        <li><span style="color: #FF9800;">Orange (40-59):</span> Fair</li>
+                        <li><span style="color: #F44336;">Red (below 40):</span> Poor</li>
+                    </ul>
+                    
+                    Below the score, we provide specific feedback. This resume scores well because it has a dedicated Skills section, includes relevant keywords, and has good formatting."
+                </div>
+                
+                <h3>Skills Match Section</h3>
+                <div class="script-text">
+                    "Next, we have the Skills Coverage visualization showing:
+                    <ul>
+                        <li><strong>Matched skills:</strong> Technical skills from resume that appear in job</li>
+                        <li><strong>Unmatched skills:</strong> Skills in resume not relevant to this job</li>
+                    </ul>
+                    
+                    The percentage - 65% - means 65% of the candidate's skills match what the job requires."
+                </div>
+                
+                <h3>Missing Keywords Section</h3>
+                <div class="script-text">
+                    "This section lists technical keywords from the job description NOT found in the resume. Notice these are all technical terms - Python, Docker, Kubernetes, CI/CD. Our algorithm uses pattern-based NLP to filter out soft skills, focusing only on concrete technical skills through:
+                    <ul>
+                        <li>CamelCase terms (e.g., JavaScript)</li>
+                        <li>Hyphenated tech terms (e.g., CI/CD)</li>
+                        <li>Version numbers (e.g., Python3)</li>
+                        <li>Filtering out gerunds, abstract nouns, action verbs</li>
+                    </ul>
+                    
+                    This approach scales automatically - no hardcoded lists needed."
+                </div>
+                
+                <h3>Cover Letter Section</h3>
+                <div class="script-text">
+                    "Finally, we automatically generate a personalized cover letter that:
+                    <ul>
+                        <li>Mentions specific matched skills</li>
+                        <li>Acknowledges growth areas</li>
+                        <li>Uses professional tone</li>
+                        <li>Is completely editable</li>
+                    </ul>
+                    
+                    Users can edit directly, copy to clipboard, or download as PDF."
+                </div>
+            </div>
+            
+            <!-- Part 4 -->
+            <div class="section">
+                <h2>🔍 PART 4: Multi-Job Comparison <span class="timing">2 minutes</span></h2>
+                
+                <div class="action-note">
+                    <strong>[Navigate to Job Comparison tab/section]</strong>
+                </div>
+                
+                <div class="script-text">
+                    "One of our most powerful features is comparing multiple job opportunities side-by-side."
+                </div>
+                
+                <div class="action-note">
+                    <strong>[Add 3 different job descriptions and click "Compare All Jobs"]</strong>
+                </div>
+                
+                <div class="script-text">
+                    "The system analyzes the same resume against all three jobs simultaneously. The visual comparison makes it immediately clear:
+                    <ul>
+                        <li><span class="highlight">Job 1 (Senior SWE): 75% match</span> - Excellent fit</li>
+                        <li>Job 3 (Full Stack): 68% match - Good fit</li>
+                        <li>Job 2 (DevOps): 45% match - Fair, needs skill development</li>
+                    </ul>
+                    
+                    The table provides:
+                    <ul>
+                        <li><strong>Match Score:</strong> Overall compatibility percentage</li>
+                        <li><strong>Skills Match:</strong> Ratio (e.g., 6/8 means 6 of 8 resume skills match)</li>
+                        <li><strong>Recommendation:</strong> Color-coded advice</li>
+                    </ul>
+                    
+                    This helps candidates make data-driven decisions about job search priorities."
+                </div>
+            </div>
+            
+            <!-- Part 5 -->
+            <div class="section">
+                <h2>☁️ PART 5: AWS Infrastructure Tour <span class="timing">2 minutes</span></h2>
+                
+                <div class="action-note">
+                    <strong>[Switch to AWS Console]</strong>
+                </div>
+                
+                <h3>CloudFormation Stack</h3>
+                <div class="script-text">
+                    "Everything is deployed using Infrastructure as Code with AWS SAM. Here's our CloudFormation stack with all resources:
+                    <ul>
+                        <li>3 Lambda functions (ResumeParser, ScoreCalculator, ApiHandler)</li>
+                        <li>S3 bucket for resume storage</li>
+                        <li>DynamoDB table for analysis results</li>
+                        <li>API Gateway REST API</li>
+                        <li>IAM roles with least-privilege policies</li>
+                        <li>Lambda layer for PyMuPDF (77MB)</li>
+                    </ul>
+                </div>
+                
+                <h3>Lambda Functions</h3>
+                <div class="action-note">
+                    <strong>[Click on Resume Parser function]</strong>
+                </div>
+                
+                <div class="script-text">
+                    "Configuration: Python 3.11, 512 MB memory, 60-second timeout. CloudWatch tracks invocation count, duration (average 1-2 seconds), error rate, and throttles."
+                </div>
+                
+                <h3>S3 Bucket</h3>
+                <div class="script-text">
+                    "Resume storage with:
+                    <ul>
+                        <li>AES-256 encryption at rest</li>
+                        <li>Private bucket (Block Public Access enabled)</li>
+                        <li>Presigned URLs expiring after 5 minutes</li>
+                    </ul>
+                </div>
+                
+                <h3>DynamoDB Table</h3>
+                <div class="script-text">
+                    "Analysis results stored with on-demand billing, auto-scaling, and millisecond latency. Each item contains analysis ID, parsed data, scores, feedback, and timestamp."
+                </div>
+                
+                <h3>CloudFront Distribution</h3>
+                <div class="script-text">
+                    "Frontend distributed globally via CloudFront:
+                    <ul>
+                        <li>HTTPS with AWS-managed certificates</li>
+                        <li>Origin Access Identity for secure S3 access</li>
+                        <li>Edge locations worldwide for low latency</li>
+                        <li>Cache invalidation for instant updates</li>
+                    </ul>
+                    
+                    This respects AWS security best practices while providing fast, global access."
+                </div>
+            </div>
+            
+            <!-- Part 6 -->
+            <div class="section">
+                <h2>💡 PART 6: Code Highlights <span class="timing">1 minute</span></h2>
+                
+                <h3>Pattern-Based Skill Detection</h3>
+                <div class="script-text">
+                    "Instead of hardcoded lists, we use linguistic patterns:
+                    <ul>
+                        <li>Words ending in -ing, -tion, -ment → likely soft skills</li>
+                        <li>CamelCase words → likely technical (e.g., JavaScript)</li>
+                        <li>This scales automatically to new technologies</li>
+                    </ul>
+                </div>
+                
+                <h3>TF-IDF Similarity</h3>
+                <div class="script-text">
+                    "We use Term Frequency-Inverse Document Frequency to calculate semantic similarity, not just keyword counting. This captures meaning, not exact matches."
+                </div>
+                
+                <h3>Dynamic ATS Scoring</h3>
+                <div class="script-text">
+                    "Scores are context-aware:
+                    <ul>
+                        <li>Checks Skills section existence</li>
+                        <li>Applies penalties based on skill count</li>
+                        <li>Provides specific, actionable feedback</li>
+                        <li>Varies by resume quality (not uniform)</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Part 7 -->
+            <div class="section">
+                <h2>🎓 PART 7: Conclusion & Lessons Learned <span class="timing">1 minute</span></h2>
+                
+                <div class="script-text">
+                    "To summarize, we've built a production-ready, cloud-native application with:
+                    
+                    <h4>Technical Achievements:</h4>
+                    <ul>
+                        <li>Deployed on AWS with 99.9% uptime SLA</li>
+                        <li>Serverless architecture that scales automatically</li>
+                        <li>Sub-4-second response times</li>
+                        <li>Global CDN distribution with HTTPS</li>
+                        <li>Infrastructure as Code for reproducible deployments</li>
+                    </ul>
+                    
+                    <h4>Key Learnings:</h4>
+                    <ol>
+                        <li><strong>Serverless is powerful</strong> - No server management, automatic scaling</li>
+                        <li><strong>Security first</strong> - CloudFront OAI, presigned URLs, IAM policies</li>
+                        <li><strong>Pattern-based NLP scales better</strong> than hardcoded lists</li>
+                        <li><strong>Infrastructure as Code</strong> makes deployment repeatable</li>
+                    </ol>
+                    
+                    <h4>Future Improvements:</h4>
+                    <ul>
+                        <li>Machine Learning for skill extraction</li>
+                        <li>User authentication with AWS Cognito</li>
+                        <li>LinkedIn profile integration</li>
+                        <li>Interview question generation</li>
+                    </ul>
+                    
+                    This tool democratizes access to resume optimization, helping job seekers compete effectively.
+                    
+                    Thank you! The live application is at <a href="https://dx8h4r4ocvfti.cloudfront.net">https://dx8h4r4ocvfti.cloudfront.net</a>"
+                </div>
+                
+                <div class="action-note">
+                    <strong>[End recording]</strong>
+                </div>
+            </div>
+            
+            <!-- Post Recording -->
+            <div class="section">
+                <h2>✅ POST-RECORDING CHECKLIST</h2>
+                
+                <ul class="checklist">
+                    <li>Review video for audio/visual quality</li>
+                    <li>Trim any dead air at beginning/end</li>
+                    <li>Add captions in Panopto (optional but recommended)</li>
+                    <li>Set video privacy to "Unlisted" or "Public"</li>
+                    <li>Copy the Panopto share link</li>
+                    <li>Paste link into final report Appendix B</li>
+                    <li>Test link in incognito window</li>
+                    <li>Submit report with working video link</li>
+                </ul>
+            </div>
+            
+            <!-- Troubleshooting -->
+            <div class="section">
+                <h2>🔧 TROUBLESHOOTING TIPS</h2>
+                
+                <div class="warning-box">
+                    <h4>If the application is slow:</h4>
+                    <p>Mention: "Lambda cold starts can add 2-3 seconds on first request"<br>
+                    Keep talking while it loads, explain what's happening</p>
+                </div>
+                
+                <div class="warning-box">
+                    <h4>If there's an error:</h4>
+                    <p>Stay calm, say: "Let me show you our error handling"<br>
+                    Open browser console to show error message<br>
+                    Explain: "This is logged to CloudWatch for debugging"</p>
+                </div>
+                
+                <div class="warning-box">
+                    <h4>If you forget something:</h4>
+                    <p>Pause, say: "Let me also show you..."<br>
+                    Panopto allows editing - you can splice in additional footage</p>
+                </div>
+                
+                <div class="tips-box">
+                    <h4>If time is running short:</h4>
+                    <ul>
+                        <li>Skip the code highlights section</li>
+                        <li>Focus on live demo and AWS infrastructure</li>
+                    </ul>
+                </div>
+                
+                <div class="tips-box">
+                    <h4>If time is running long:</h4>
+                    <ul>
+                        <li>Shorten the AWS Console tour</li>
+                        <li>Combine sections 2 and 3 (basic analysis + results)</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Recording Tips -->
+            <div class="section" style="background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%); border-left-color: #764ba2;">
+                <h2>🎬 RECORDING TIPS</h2>
+                
+                <ul>
+                    <li>✨ Speak clearly and at a moderate pace</li>
+                    <li>⏸️ Pause briefly between sections for editing</li>
+                    <li>👉 Use phrases like "as you can see here" when pointing to elements</li>
+                    <li>🎉 Show enthusiasm - you built something cool!</li>
+                    <li>😊 Smile when on camera (if using webcam)</li>
+                    <li>💧 Stay hydrated - keep water nearby</li>
+                    <li>🔇 Eliminate background noise</li>
+                    <li>📱 Silence phone notifications</li>
+                </ul>
+            </div>
+            
+            <div style="text-align: center; margin: 40px 0;">
+                <a href="https://utsa.hosted.panopto.com" class="btn" target="_blank">🎥 Start Recording on Panopto</a>
+                <a href="https://dx8h4r4ocvfti.cloudfront.net" class="btn" target="_blank">🌐 Open Live Application</a>
+            </div>
+        </div>
+        
+        <footer>
+            <p><strong>Good luck with your demo! 🚀</strong></p>
+            <p style="margin-top: 10px; opacity: 0.8;">AI-Powered Resume Analyzer | Cloud Computing Final Project | UTSA 2025</p>
+        </footer>
+    </div>
+</body>
+</html>
